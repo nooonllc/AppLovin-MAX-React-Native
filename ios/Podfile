@@ -37,4 +37,20 @@ target 'AppLovinMAX' do
 
   pod 'AppLovinSDK', '12.4.1'
 
+  pod 'AppLovinMediationAmazonAdMarketplaceAdapter'
+  pod 'AmazonPublisherServicesSDK'
+  pod 'AppLovinMediationChartboostAdapter'
+  pod 'AppLovinMediationFyberAdapter'
+  pod 'AppLovinMediationInMobiAdapter'
+  pod 'AppLovinMediationVungleAdapter'
+  pod 'AppLovinMediationLineAdapter'
+  pod 'AppLovinMediationMaioAdapter'
+  pod 'AppLovinMediationFacebookAdapter'
+  pod 'AppLovinMediationMintegralAdapter'
+  pod 'AppLovinMediationOguryPresageAdapter'
+  pod 'AppLovinMediationByteDanceAdapter'
+  pod 'AppLovinMediationUnityAdsAdapter'
+  pod 'AppLovinMediationGoogleAdManagerAdapter'
+  pod 'AppLovinMediationGoogleAdapter'
+
 end

@@ -17,4 +17,19 @@ Pod::Spec.new do |s|
 
   s.dependency "React"
   s.dependency "AppLovinSDK", "12.4.1"
+
+  s.dependency 'AppLovinMediationAmazonAdMarketplaceAdapter'
+  s.dependency 'AmazonPublisherServicesSDK'
+  s.dependency 'AppLovinMediationChartboostAdapter'
+  s.dependency 'AppLovinMediationFyberAdapter'
+  s.dependency 'AppLovinMediationInMobiAdapter'
+  s.dependency 'AppLovinMediationVungleAdapter'
+  s.dependency 'AppLovinMediationLineAdapter'
+  s.dependency 'AppLovinMediationMaioAdapter'
+  s.dependency 'AppLovinMediationFacebookAdapter'
+  s.dependency 'AppLovinMediationMintegralAdapter'
+  s.dependency 'AppLovinMediationOguryPresageAdapter'
+  s.dependency 'AppLovinMediationByteDanceAdapter'
+  s.dependency 'AppLovinMediationUnityAdsAdapter'
+
 end
