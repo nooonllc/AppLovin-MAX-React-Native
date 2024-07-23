@@ -1,0 +1,24 @@
+//This file should not be modified. Any modification of this file may result in build issues.
+dependencies {
+    implementation fileTree(include: ['AnyManagerAppLovinSDK_v1.4.0.aar'], dir: 'libs')
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+
+    implementation 'com.applovin.mediation:facebook-adapter:6.17.0.0'
+
+    implementation 'com.applovin.mediation:inmobi-adapter:10.7.3.0'
+
+    implementation 'com.applovin.mediation:unityads-adapter:4.12.0.0'
+
+    implementation 'com.applovin.mediation:vungle-adapter:7.3.2.2'
+
+    implementation 'com.applovin.mediation:amazon-tam-adapter:9.10.0.0'
+    implementation 'com.amazon.android:aps-sdk:9.10.0'
+
+    implementation 'com.applovin.mediation:fyber-adapter:8.2.7.1'
+
+    implementation 'com.applovin.mediation:yandex-adapter:7.1.0.0'
+
+    implementation 'com.applovin.mediation:moloco-adapter:2.3.0.0'
+}
