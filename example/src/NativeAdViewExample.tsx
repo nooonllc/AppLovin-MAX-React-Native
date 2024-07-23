@@ -1,17 +1,7 @@
 import * as React from 'react';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
-import {
-    NativeAdView,
-    TitleView,
-    AdvertiserView,
-    BodyView,
-    CallToActionView,
-    IconView,
-    OptionsView,
-    MediaView,
-    StarRatingView,
-} from 'react-native-applovin-max';
+import { NativeAdView, TitleView, AdvertiserView, BodyView, CallToActionView, IconView, OptionsView, MediaView, StarRatingView } from 'react-native-applovin-max';
 import type { AdInfo, AdLoadFailedInfo, AdRevenueInfo, NativeAdViewHandler } from 'react-native-applovin-max';
 import AppButton from './components/AppButton';
 
@@ -26,13 +16,7 @@ type Props = {
 const NATIVE_AD_MEDIAVIEW_WIDTH = 340;
 const NATIVE_AD_MEDIAVIEW_HEIGHT = 200;
 
-export const NativeAdViewExample = ({
-    adUnitId,
-    isInitialized,
-    log,
-    isNativeAdShowing,
-    setIsNativeAdShowing,
-}: Props) => {
+export const NativeAdViewExample = ({ adUnitId, isInitialized, log, isNativeAdShowing, setIsNativeAdShowing }: Props) => {
     const DEFAULT_ASPECT_RATIO = 16 / 9;
     const [aspectRatio, setAspectRatio] = useState(DEFAULT_ASPECT_RATIO);
     const [mediaViewSize, setMediaViewSize] = useState({});
@@ -50,55 +34,6 @@ export const NativeAdViewExample = ({
         }
     }, [aspectRatio]);
 
-    const NativeAdExample = useCallback(() => {
-        return (
-            <NativeAdView
-                adUnitId={adUnitId}
-                placement="myplacement"
-                customData="mycustomdata"
-                ref={nativeAdViewRef}
-                style={styles.nativead}
-                onAdLoaded={(adInfo: AdInfo) => {
-                    if (adInfo?.nativeAd?.mediaContentAspectRatio) {
-                        setAspectRatio(adInfo?.nativeAd?.mediaContentAspectRatio);
-                    }
-                    log('Native ad loaded from ' + adInfo.networkName);
-                    setIsNativeAdLoading(false);
-                }}
-                onAdLoadFailed={(errorInfo: AdLoadFailedInfo) => {
-                    log(
-                        'Native ad failed to load with error code ' +
-                            errorInfo.code +
-                            ' and message: ' +
-                            errorInfo.message
-                    );
-                    setIsNativeAdLoading(false);
-                }}
-                onAdClicked={(adInfo: AdInfo) => {
-                    log('Native ad clicked on ' + adInfo.adUnitId);
-                }}
-                onAdRevenuePaid={(adInfo: AdRevenueInfo) => {
-                    log('Native ad revenue paid: ' + adInfo.revenue);
-                }}
-            >
-                <View style={styles.assetContainer}>
-                    <View style={styles.assetUpperContainer}>
-                        <IconView style={styles.icon} />
-                        <View style={styles.assetTitleContainer}>
-                            <TitleView numberOfLines={1} style={styles.title} />
-                            <AdvertiserView numberOfLines={1} style={styles.advertiser} />
-                            <StarRatingView style={styles.starRatingView} />
-                        </View>
-                        <OptionsView style={styles.optionsView} />
-                    </View>
-                    <BodyView numberOfLines={2} style={styles.body} />
-                    <MediaView style={{ ...styles.mediaView, ...mediaViewSize }} />
-                    <CallToActionView style={styles.callToAction} />
-                </View>
-            </NativeAdView>
-        );
-    }, [adUnitId, log, mediaViewSize]);
-
     return (
         <>
             <AppButton
@@ -110,7 +45,45 @@ export const NativeAdViewExample = ({
             />
             {isNativeAdShowing && (
                 <View style={styles.container}>
-                    <NativeAdExample />
+                    <NativeAdView
+                        adUnitId={adUnitId}
+                        placement="myplacement"
+                        customData="mycustomdata"
+                        ref={nativeAdViewRef}
+                        style={styles.nativead}
+                        onAdLoaded={(adInfo: AdInfo) => {
+                            if (adInfo?.nativeAd?.mediaContentAspectRatio) {
+                                setAspectRatio(adInfo?.nativeAd?.mediaContentAspectRatio);
+                            }
+                            log('Native ad loaded from ' + adInfo.networkName);
+                            setIsNativeAdLoading(false);
+                        }}
+                        onAdLoadFailed={(errorInfo: AdLoadFailedInfo) => {
+                            log('Native ad failed to load with error code ' + errorInfo.code + ' and message: ' + errorInfo.message);
+                            setIsNativeAdLoading(false);
+                        }}
+                        onAdClicked={(adInfo: AdInfo) => {
+                            log('Native ad clicked on ' + adInfo.adUnitId);
+                        }}
+                        onAdRevenuePaid={(adInfo: AdRevenueInfo) => {
+                            log('Native ad revenue paid: ' + adInfo.revenue);
+                        }}
+                    >
+                        <View style={styles.assetContainer}>
+                            <View style={styles.assetUpperContainer}>
+                                <IconView style={styles.icon} />
+                                <View style={styles.assetTitleContainer}>
+                                    <TitleView numberOfLines={1} style={styles.title} />
+                                    <AdvertiserView numberOfLines={1} style={styles.advertiser} />
+                                    <StarRatingView style={styles.starRatingView} />
+                                </View>
+                                <OptionsView style={styles.optionsView} />
+                            </View>
+                            <BodyView numberOfLines={2} style={styles.body} />
+                            <MediaView style={{ ...styles.mediaView, ...mediaViewSize }} />
+                            <CallToActionView style={styles.callToAction} />
+                        </View>
+                    </NativeAdView>
                     <AppButton
                         title={'RELOAD'}
                         enabled={!isNativeAdLoading}
