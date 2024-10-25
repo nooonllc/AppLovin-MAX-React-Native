@@ -105,7 +105,7 @@
 {
     if ( ![AppLovinMAX shared].sdk )
     {
-        [[AppLovinMAX shared] logUninitializedAccessError: @"AppLovinMAXNativeAdview.loadAd"];
+        [[AppLovinMAX shared] logUninitializedAccessError: @"AppLovinMAXNativeAdView.loadAd"];
         return;
     }
     
@@ -118,7 +118,7 @@
         
         for ( NSString *key in self.extraParameters )
         {
-            [self.adLoader setExtraParameterForKey: key value: self.extraParameters[key]];
+            [self.adLoader setExtraParameterForKey: key value: [self.extraParameters al_stringForKey: key]];
         }
         
         for ( NSString *key in self.localExtraParameters )
@@ -231,6 +231,15 @@
             }
         }
     }
+    else
+    {
+        UIView *iconView = self.nativeAd.nativeAd.iconView;
+        if ( iconView )
+        {
+            [view addSubview: iconView];
+            [iconView al_pinToSuperview];
+        }
+    }
 }
 
 - (void)setOptionsView:(NSNumber *)tag
@@ -331,7 +340,7 @@
         nativeAdInfo[@"mediaContentAspectRatio"] = @(ad.mediaContentAspectRatio);
     }
     
-    nativeAdInfo[@"isIconImageAvailable"] = @(ad.icon != nil);
+    nativeAdInfo[@"isIconImageAvailable"] = @(ad.icon != nil || ad.iconView != nil);
     nativeAdInfo[@"isOptionsViewAvailable"] = @(ad.optionsView != nil);
     nativeAdInfo[@"isMediaViewAvailable"] = @(ad.mediaView != nil);
     
@@ -357,6 +366,10 @@
         {
             jsNativeAd[@"image"] = @(YES);
         }
+    }
+    else if ( ad.iconView )
+    {
+        jsNativeAd[@"image"] = @(YES);
     }
     
     jsNativeAd[@"isOptionsViewAvailable"] = ad.optionsView ? @(YES) : @(NO);

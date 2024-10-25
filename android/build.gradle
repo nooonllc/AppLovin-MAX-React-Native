@@ -53,8 +53,8 @@ android {
     minSdkVersion getExtOrIntegerDefault("minSdkVersion")
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
 
-    buildConfigField("int", "VERSION_CODE", "7000100")
-    buildConfigField("String", "VERSION_NAME", "\"7.0.1\"")
+    buildConfigField("int", "VERSION_CODE", "8000400")
+    buildConfigField("String", "VERSION_NAME", "\"8.0.4\"")
   }
 
   buildTypes {
@@ -85,16 +85,6 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:0.73.6"
 
-  implementation "com.applovin:applovin-sdk:12.5.0"
-
-  implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
-  implementation 'com.google.android.gms:play-services-base:18.1.0'
-  implementation "com.adjust.sdk:adjust-android:4.28.7"
-  implementation "com.google.android.material:material:1.9.0"
-  implementation 'androidx.appcompat:appcompat:1.5.1'
-  implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-  testImplementation 'junit:junit:4.13.2'
-  androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-  androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+  implementation "com.applovin:applovin-sdk:13.0.0"
 }
 

@@ -1,3 +1,5 @@
+import type { ErrorCode } from '../ErrorCode';
+
 /**
  * Represents an ad that has been served by AppLovin MAX.
  */
@@ -30,7 +32,7 @@ export type AdInfo = {
 
     /**
      *  The ad’s revenue amount. In the case where no revenue amount exists, or it is not available
-     *  yet, return 0.
+     *  yet, returns 0.
      */
     revenue: number;
 
@@ -70,7 +72,7 @@ export type AdLoadFailedInfo = {
     /**
      * The error code for the error.
      */
-    code: string | null;
+    code: ErrorCode;
 
     /**
      * The error message for the error.
@@ -105,7 +107,7 @@ export type AdDisplayFailedInfo = AdInfo & {
     /**
      * The error code for the error.
      */
-    code: string | null;
+    code: ErrorCode;
 
     /**
      * The error message for the error.
@@ -237,7 +239,7 @@ export type AdWaterfallInfo = {
     networkResponses: AdNetworkResponseInfo[];
 
     /**
-     * The total latency in seconds for this waterfall to finish processing.
+     * The total latency in milliseconds for this waterfall to finish processing.
      */
     latencyMillis: number;
 };
@@ -271,7 +273,7 @@ export type AdErrorInfo = {
     /**
      * The error code for the error.
      */
-    code: number;
+    code: ErrorCode;
 
     /**
      * The error message for the error.

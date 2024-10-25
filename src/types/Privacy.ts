@@ -1,8 +1,4 @@
 export type PrivacyType = {
-    /**********************************************************************************/
-    /* Privacy */
-    /**********************************************************************************/
-
     /**
      * Sets whether or not the user provided consent for information-sharing with AppLovin.
      *
@@ -14,18 +10,6 @@ export type PrivacyType = {
      * Checks if user set consent for information sharing.
      */
     hasUserConsent(): Promise<boolean>;
-
-    /**
-     * Marks the user as age-restricted (i.e. under 16).
-     *
-     * @param isAgeRestrictedUser true if the user is age restricted (i.e. under 16).
-     */
-    setIsAgeRestrictedUser(isAgeRestrictedUser: boolean): void;
-
-    /**
-     * Checks if the user is age-restricted.
-     */
-    isAgeRestrictedUser(): Promise<boolean>;
 
     /**
      * Sets whether or not the user opted out of the sale of their personal information.

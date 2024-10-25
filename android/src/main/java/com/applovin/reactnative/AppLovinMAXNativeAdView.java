@@ -188,7 +188,7 @@ public class AppLovinMAXNativeAdView
                 AppLovinMAXModule.e( "Native ad is of template type, failing ad load..." );
 
                 WritableMap loadFailedInfo = AppLovinMAXModule.getInstance().getAdLoadFailedInfo( adUnitId, null );
-                reactContext.getJSModule( RCTEventEmitter.class ).receiveEvent( getId(), "onAdLoadFailedEvent", loadFailedInfo );
+                reactContext.getJSModule( RCTEventEmitter.class ).receiveEvent( getId(), AppLovinMAXAdEvents.ON_AD_LOAD_FAILED_EVENT, loadFailedInfo );
 
                 return;
             }
@@ -211,14 +211,14 @@ public class AppLovinMAXNativeAdView
             AppLovinMAXModule.e( "Failed to load native ad for Ad Unit ID " + adUnitId + " with error: " + error );
 
             WritableMap loadFailedInfo = AppLovinMAXModule.getInstance().getAdLoadFailedInfo( adUnitId, error );
-            reactContext.getJSModule( RCTEventEmitter.class ).receiveEvent( getId(), "onAdLoadFailedEvent", loadFailedInfo );
+            reactContext.getJSModule( RCTEventEmitter.class ).receiveEvent( getId(), AppLovinMAXAdEvents.ON_AD_LOAD_FAILED_EVENT, loadFailedInfo );
         }
 
         @Override
         public void onNativeAdClicked(@NonNull final MaxAd ad)
         {
             WritableMap adInfo = AppLovinMAXModule.getInstance().getAdInfo( ad );
-            reactContext.getJSModule( RCTEventEmitter.class ).receiveEvent( getId(), "onAdClickedEvent", adInfo );
+            reactContext.getJSModule( RCTEventEmitter.class ).receiveEvent( getId(), AppLovinMAXAdEvents.ON_AD_CLICKED_EVENT, adInfo );
         }
     }
 
@@ -228,7 +228,7 @@ public class AppLovinMAXNativeAdView
     public void onAdRevenuePaid(@NonNull final MaxAd ad)
     {
         WritableMap adRevenueInfo = AppLovinMAXModule.getInstance().getAdRevenueInfo( ad );
-        reactContext.getJSModule( RCTEventEmitter.class ).receiveEvent( getId(), "onAdRevenuePaidEvent", adRevenueInfo );
+        reactContext.getJSModule( RCTEventEmitter.class ).receiveEvent( getId(), AppLovinMAXAdEvents.ON_AD_REVENUE_PAID_EVENT, adRevenueInfo );
     }
 
     /// Native Ad Component Methods
@@ -337,6 +337,14 @@ public class AppLovinMAXNativeAdView
                 view.setImageDrawable( icon.getDrawable() );
             }
         }
+        else
+        {
+            ImageView iconView = (ImageView) nativeAd.getNativeAd().getIconView();
+            if ( iconView != null )
+            {
+                view.setImageDrawable( iconView.getDrawable() );
+            }
+        }
     }
 
     public void setOptionsView(final int tag)
@@ -379,8 +387,8 @@ public class AppLovinMAXNativeAdView
             return;
         }
 
-        view.setTag( MEDIA_VIEW_CONTAINER_TAG );
-        clickableViews.add( view );
+        mediaView.setTag( MEDIA_VIEW_CONTAINER_TAG );
+        clickableViews.add( mediaView );
 
         view.addOnLayoutChangeListener( this );
 
@@ -504,7 +512,7 @@ public class AppLovinMAXNativeAdView
             nativeAdInfo.putDouble( "mediaContentAspectRatio", aspectRatio );
         }
 
-        nativeAdInfo.putBoolean( "isIconImageAvailable", ( ad.getIcon() != null ) );
+        nativeAdInfo.putBoolean( "isIconImageAvailable", ( ad.getIcon() != null || ad.getIconView() != null ) );
         nativeAdInfo.putBoolean( "isOptionsViewAvailable", ( ad.getOptionsView() != null ) );
         nativeAdInfo.putBoolean( "isMediaViewAvailable", ( ad.getMediaView() != null ) );
 
@@ -536,6 +544,10 @@ public class AppLovinMAXNativeAdView
                 jsNativeAd.putBoolean( "image", true );
             }
         }
+        else if ( ad.getIconView() != null )
+        {
+            jsNativeAd.putBoolean( "image", true );
+        }
 
         jsNativeAd.putBoolean( "isOptionsViewAvailable", ( ad.getOptionsView() != null ) );
         jsNativeAd.putBoolean( "isMediaViewAvailable", ( ad.getMediaView() != null ) );
@@ -545,7 +557,7 @@ public class AppLovinMAXNativeAdView
         arg.putMap( "nativeAd", jsNativeAd );
 
         // Send to `AppLovinNativeAdView.js`
-        reactContext.getJSModule( RCTEventEmitter.class ).receiveEvent( getId(), "onAdLoadedEvent", arg );
+        reactContext.getJSModule( RCTEventEmitter.class ).receiveEvent( getId(), AppLovinMAXAdEvents.ON_AD_LOADED_EVENT, arg );
     }
 
     private void maybeDestroyCurrentAd()

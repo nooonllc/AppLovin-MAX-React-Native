@@ -87,22 +87,6 @@ export type AppLovinMAXType = {
     setExtraParameter(key: string, value: string | null): void;
 
     /**
-     * Whether or not the AppLovinMAX SDK collects the device location.
-     *
-     * @param enabled Defaults to true.
-     */
-    setLocationCollectionEnabled(enabled: boolean): void;
-
-    /**
-     * @deprecated Use {@link setTermsAndPrivacyPolicyFlowEnabled()} instead.
-     *
-     * Enables the MAX Terms Flow.
-     *
-     * @param enabled true to enable the MAX Terms Flow.
-     */
-    setConsentFlowEnabled(enabled: boolean): void;
-
-    /**
      * Enables the MAX Terms and Privacy Policy Flow.
      *
      * @param enabled true to enable the MAX Terms and Privacy Policy Flow.
@@ -149,4 +133,24 @@ export type AppLovinMAXType = {
      * @return {boolean}
      */
     hasSupportedCmp(): Promise<boolean>;
+
+    /**
+     * Adds a segment. Both the key and the values must be integers.
+     *
+     * @param key An integer key.
+     * @param values An array of integers.
+     * @returns A promise that resolves upon the successful addition. The resolved object contains
+     * void.
+     * @throws Throws an error if the segments can not be added.
+     */
+    addSegment(key: number, values: number[]): Promise<void>;
+
+    /**
+     * Returns a list of segments.
+     *
+     * @returns A promise that resolves upon a successful inquiry. The resolved object contains a
+     * Map object that holds a list of segments, each represented by a key and an array of integers.
+     * @throws Throws an error if the segments can not be gotten.
+     */
+    getSegments(): Promise<Map<number, number[]> | null>;
 };
