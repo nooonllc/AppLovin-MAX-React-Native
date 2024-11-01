@@ -18,20 +18,17 @@ Pod::Spec.new do |s|
 
   s.dependency "AppLovinSDK", "13.0.0"
 
-  s.dependency 'AppLovinMediationAmazonAdMarketplaceAdapter'
-  s.dependency 'AmazonPublisherServicesSDK'
+  s.dependency 'bigo-ads-new-max-adapter'
   s.dependency 'AppLovinMediationChartboostAdapter'
   s.dependency 'AppLovinMediationFyberAdapter'
   s.dependency 'AppLovinMediationInMobiAdapter'
+  s.dependency 'AppLovinMediationIronSourceAdapter'
   s.dependency 'AppLovinMediationVungleAdapter'
-  s.dependency 'AppLovinMediationLineAdapter'
-  s.dependency 'AppLovinMediationMaioAdapter'
   s.dependency 'AppLovinMediationFacebookAdapter'
   s.dependency 'AppLovinMediationMintegralAdapter'
-  s.dependency 'AppLovinMediationOguryPresageAdapter'
+  s.dependency 'AppLovinMediationMolocoAdapter'
   s.dependency 'AppLovinMediationByteDanceAdapter'
   s.dependency 'AppLovinMediationUnityAdsAdapter'
-  s.dependency 'MolocoCustomAdapterAppLovin'
 
   # Use install_modules_dependencies helper to install the dependencies if React Native version >=0.71.0.
   # See https://github.com/facebook/react-native/blob/febf6b7f33fdb4904669f99d795eba4c0f95d7bf/scripts/cocoapods/new_architecture.rb#L79.
