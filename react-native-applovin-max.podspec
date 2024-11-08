@@ -18,12 +18,13 @@ Pod::Spec.new do |s|
 
   s.dependency "AppLovinSDK", "13.0.0"
 
-  s.dependency 'bigo-ads-new-max-adapter'
+  s.dependency 'AppLovinMediationBigoAdsAdapter'
   s.dependency 'AppLovinMediationChartboostAdapter'
   s.dependency 'AppLovinMediationFyberAdapter'
   s.dependency 'AppLovinMediationInMobiAdapter'
   s.dependency 'AppLovinMediationIronSourceAdapter'
   s.dependency 'AppLovinMediationVungleAdapter'
+  s.dependency 'AppLovinMediationLineAdapter'
   s.dependency 'AppLovinMediationFacebookAdapter'
   s.dependency 'AppLovinMediationMintegralAdapter'
   s.dependency 'AppLovinMediationMolocoAdapter'
