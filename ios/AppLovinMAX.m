@@ -73,7 +73,7 @@
 @implementation AppLovinMAX
 static NSString *const SDK_TAG = @"AppLovinSdk";
 static NSString *const TAG = @"AppLovinMAX";
-static NSString *const PLUGIN_VERSION = @"8.0.4";
+static NSString *const PLUGIN_VERSION = @"8.1.1";
 
 static NSString *const USER_GEOGRAPHY_GDPR = @"G";
 static NSString *const USER_GEOGRAPHY_OTHER = @"O";
@@ -124,9 +124,6 @@ static NSString *const ON_APPOPEN_AD_FAILED_TO_DISPLAY_EVENT = @"OnAppOpenAdFail
 static NSString *const ON_APPOPEN_AD_HIDDEN_EVENT = @"OnAppOpenAdHiddenEvent";
 static NSString *const ON_APPOPEN_AD_REVENUE_PAID = @"OnAppOpenAdRevenuePaid";
 
-static NSString *const ON_NATIVE_UI_COMPONENT_ADVIEW_AD_LOADED_EVENT = @"OnNativeUIComponentAdViewAdLoadedEvent";
-static NSString *const ON_NATIVE_UI_COMPONENT_ADVIEW_AD_LOAD_FAILED_EVENT = @"OnNativeUIComponentAdViewAdLoadFailedEvent";
-
 static NSString *const TOP_CENTER = @"top_center";
 static NSString *const TOP_LEFT = @"top_left";
 static NSString *const TOP_RIGHT = @"top_right";
@@ -141,6 +138,9 @@ static AppLovinMAX *AppLovinMAXShared; // Shared instance of this bridge module.
 
 static NSDictionary<NSString *, NSString *> *ALCompatibleNativeSDKVersions;
 
+NSString *const ON_NATIVE_UI_COMPONENT_ADVIEW_AD_LOADED_EVENT = @"OnNativeUIComponentAdViewAdLoadedEvent";
+NSString *const ON_NATIVE_UI_COMPONENT_ADVIEW_AD_LOAD_FAILED_EVENT = @"OnNativeUIComponentAdViewAdLoadFailedEvent";
+
 // To export a module named AppLovinMAX ("RCT" automatically removed)
 RCT_EXPORT_MODULE()
 
@@ -149,6 +149,9 @@ RCT_EXPORT_MODULE()
     [super initialize];
     
     ALCompatibleNativeSDKVersions = @{
+        @"8.1.1" : @"13.0.1",
+        @"8.1.0" : @"13.0.1",
+        @"8.0.5" : @"13.0.1",
         @"8.0.4" : @"13.0.0",
         @"8.0.3" : @"13.0.0",
         @"8.0.2" : @"13.0.0",
@@ -983,11 +986,11 @@ RCT_EXPORT_METHOD(preloadNativeUIComponentAdView:(NSString *)adUnitIdentifier
                                   withPromiseRejecter: reject];
 }
 
-RCT_EXPORT_METHOD(destroyNativeUIComponentAdView:(NSString *)adUnitIdentifier 
+RCT_EXPORT_METHOD(destroyNativeUIComponentAdView:(nonnull NSNumber *)adViewId
                                                 :(RCTPromiseResolveBlock)resolve
                                                 :(RCTPromiseRejectBlock)reject)
 {
-    [AppLovinMAXAdView destroyNativeUIComponentAdView: adUnitIdentifier
+    [AppLovinMAXAdView destroyNativeUIComponentAdView: adViewId
                                   withPromiseResolver: resolve
                                   withPromiseRejecter: reject];
 }
@@ -2168,8 +2171,6 @@ RCT_EXPORT_METHOD(destroyNativeUIComponentAdView:(NSString *)adUnitIdentifier
              @"MAX_ERROR_CODE_FULLSCREEN_AD_ALREADY_SHOWING" : @(MAErrorCodeFullscreenAdAlreadyShowing),
              @"MAX_ERROR_CODE_FULLSCREEN_AD_NOT_READY" : @(MAErrorCodeFullscreenAdNotReady),
              @"MAX_ERROR_CODE_FULLSCREEN_AD_INVALID_VIEW_CONTROLLER" : @(MAErrorCodeFullscreenAdInvalidViewController),
-             @"MAX_ERROR_CODE_FULLSCREEN_AD_ALREADY_LOADING" : @(MAErrorCodeFullscreenAdAlreadyLoading),
-             @"MAX_ERROR_CODE_FULLSCREEN_AD_LOAD_WHILE_SHOWING" : @(MAErrorCodeFullscreenAdLoadWhileShowing),
              @"MAX_ERROR_CODE_INVALID_AD_UNIT_ID" : @(MAErrorCodeInvalidAdUnitIdentifier),
              // Android only
              @"MAX_ERROR_CODE_DONT_KEEP_ACTIVITIES_ENABLED" : @(-5602)};

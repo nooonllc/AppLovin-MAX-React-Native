@@ -78,7 +78,7 @@ public class AppLovinMAXModule
 {
     private static final String SDK_TAG        = "AppLovinSdk";
     private static final String TAG            = "AppLovinMAXModule";
-    private static final String PLUGIN_VERSION = "8.0.4";
+    private static final String PLUGIN_VERSION = "8.1.1";
 
     private static final String USER_GEOGRAPHY_GDPR    = "G";
     private static final String USER_GEOGRAPHY_OTHER   = "O";
@@ -100,6 +100,9 @@ public class AppLovinMAXModule
 
     static
     {
+        ALCompatibleNativeSdkVersions.put( "8.1.1", "13.0.1" );
+        ALCompatibleNativeSdkVersions.put( "8.1.0", "13.0.1" );
+        ALCompatibleNativeSdkVersions.put( "8.0.5", "13.0.1" );
         ALCompatibleNativeSdkVersions.put( "8.0.4", "13.0.0" );
         ALCompatibleNativeSdkVersions.put( "8.0.3", "13.0.0" );
         ALCompatibleNativeSdkVersions.put( "8.0.2", "13.0.0" );
@@ -1133,9 +1136,9 @@ public class AppLovinMAXModule
     }
 
     @ReactMethod
-    public void destroyNativeUIComponentAdView(final String adUnitId, final Promise promise)
+    public void destroyNativeUIComponentAdView(final int adViewId, final Promise promise)
     {
-        getReactApplicationContext().runOnUiQueueThread( () -> AppLovinMAXAdView.destroyNativeUIComponentAdView( adUnitId, promise ) );
+        getReactApplicationContext().runOnUiQueueThread( () -> AppLovinMAXAdView.destroyNativeUIComponentAdView( adViewId, promise ) );
     }
 
     // AD CALLBACKS
@@ -2392,8 +2395,6 @@ public class AppLovinMAXModule
         constants.put( "MAX_ERROR_CODE_NO_NETWORK", MaxErrorCode.NO_NETWORK );
         constants.put( "MAX_ERROR_CODE_FULLSCREEN_AD_ALREADY_SHOWING", MaxErrorCode.FULLSCREEN_AD_ALREADY_SHOWING );
         constants.put( "MAX_ERROR_CODE_FULLSCREEN_AD_NOT_READY", MaxErrorCode.FULLSCREEN_AD_NOT_READY );
-        constants.put( "MAX_ERROR_CODE_FULLSCREEN_AD_ALREADY_LOADING", MaxErrorCode.FULLSCREEN_AD_ALREADY_LOADING );
-        constants.put( "MAX_ERROR_CODE_FULLSCREEN_AD_LOAD_WHILE_SHOWING", MaxErrorCode.FULLSCREEN_AD_LOAD_WHILE_SHOWING );
         constants.put( "MAX_ERROR_CODE_DONT_KEEP_ACTIVITIES_ENABLED", MaxErrorCode.DONT_KEEP_ACTIVITIES_ENABLED );
         constants.put( "MAX_ERROR_CODE_INVALID_AD_UNIT_ID", MaxErrorCode.INVALID_AD_UNIT_ID );
         // iOS only

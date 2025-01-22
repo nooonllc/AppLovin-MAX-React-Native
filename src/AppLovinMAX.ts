@@ -4,7 +4,7 @@ import type { Configuration } from './types/Configuration';
 
 const NativeAppLovinMAX = NativeModules.AppLovinMAX;
 
-const VERSION = '8.0.4';
+const VERSION = '8.1.1';
 
 /**
  * This enum represents the user's geography used to determine the type of consent flow shown to the
@@ -115,10 +115,15 @@ type NativeAppLovinMAXType = Omit<AppLovinMAXType, 'initialize' | 'getSegments'>
 
 const nativeMethods: NativeAppLovinMAXType = NativeAppLovinMAX;
 
-export const AppLovinMAX: AppLovinMAXType = {
-    ...nativeMethods,
-    initialize,
-    getSegments,
-};
+export const AppLovinMAX: AppLovinMAXType = Object.create(nativeMethods, {
+    initialize: {
+        value: initialize,
+        enumerable: true,
+    },
+    getSegments: {
+        value: getSegments,
+        enumerable: true,
+    },
+});
 
 export default AppLovinMAX;

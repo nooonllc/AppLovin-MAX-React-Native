@@ -1,5 +1,16 @@
 ## Versions
 
+## 8.1.1
+* Make AppLovinMAXAdView public to support Amazon Integration. (https://github.com/AppLovin/AppLovin-MAX-React-Native/issues/407)
+* Enable compatibility with the Interop Layer.
+* Upgrade the React Native version to 0.76.2.
+* Remove obsolete MAX Error Codes - `ErrorCode.FULLSCREEN_AD_ALREADY_LOADING` and `ErrorCode.FULLSCREEN_AD_LOAD_WHILE_SHOWING`.
+## 8.1.0
+* Enhance banner and MREC (`<AdView/>`) preloading to support preloading multiple `<AdView/>` instances.
+## 8.0.5
+* Depend on Android SDK 13.0.1 and iOS SDK 13.0.1.
+* Update preloaded banners and MRECs (`<AdView/>`) to suspend auto-refresh while not visible in background.
+* Add a workaround for the IllegalStateException (ISE) that occurs when remounting a preloaded banner and MREC (`<AdView/>`) using `react-native-screens`.
 ## 8.0.4
 * Update IconView to support native ad icon image view, primarily for BigoAds native ads.
 ## 8.0.3

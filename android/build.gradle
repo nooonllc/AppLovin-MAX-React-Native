@@ -54,8 +54,8 @@ android {
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
     multiDexEnabled true
 
-    buildConfigField("int", "VERSION_CODE", "8000400")
-    buildConfigField("String", "VERSION_NAME", "\"8.0.4\"")
+    buildConfigField("int", "VERSION_CODE", "8010100")
+    buildConfigField("String", "VERSION_NAME", "\"8.1.1\"")
   }
 
   buildTypes {
@@ -87,8 +87,8 @@ dependencies {
   // For < 0.71, this will be from the local maven repo
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynamicVersion
-  implementation "com.facebook.react:react-native:0.73.6"
+  implementation "com.facebook.react:react-native:0.75.4"
 
-  implementation "com.applovin:applovin-sdk:13.0.0"
+  implementation "com.applovin:applovin-sdk:13.0.1"
 }
 
