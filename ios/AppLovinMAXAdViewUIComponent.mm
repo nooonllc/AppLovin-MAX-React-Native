@@ -13,17 +13,30 @@
 
 @implementation AppLovinMAXAdViewUIComponent
 
-- (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier adFormat:(MAAdFormat *)adFormat
+- (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier adFormat:(MAAdFormat *)adFormat isAdaptive:(BOOL)isAdaptive
 {
     self = [super init];
     if ( self )
     {
-        self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: adUnitIdentifier adFormat: adFormat sdk: [AppLovinMAX shared].sdk];
+        MAAdViewConfiguration *config = [MAAdViewConfiguration configurationWithBuilderBlock:^(MAAdViewConfigurationBuilder *builder) {
+
+            if ( [adFormat isBannerOrLeaderAd] )
+            {
+                if ( isAdaptive )
+                {
+                    builder.adaptiveType = MAAdViewAdaptiveTypeAnchored;
+                }
+                else
+                {
+                    builder.adaptiveType = MAAdViewAdaptiveTypeNone;
+                }
+            }
+        }];
+
+        self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: adUnitIdentifier adFormat: adFormat configuration: config];
         self.adView.delegate = self;
         self.adView.revenueDelegate = self;
-        
-        [self.adView setExtraParameterForKey: @"adaptive_banner" value: @"true"];
-        
+                
         // Set this extra parameter to work around a SDK bug that ignores calls to stopAutoRefresh()
         [self.adView setExtraParameterForKey: @"allow_pause_auto_refresh_immediately" value: @"true"];
         
@@ -50,11 +63,6 @@
     self.adView.customData = customData;
 }
 
-- (void)setAdaptiveBannerEnabled:(BOOL)adaptiveBannerEnabled
-{
-    [self.adView setExtraParameterForKey: @"adaptive_banner" value: adaptiveBannerEnabled ? @"true" : @"false"];
-}
-
 - (void)setAutoRefreshEnabled:(BOOL)autoRefresh
 {
     if ( autoRefresh )
@@ -71,7 +79,8 @@
 {
     for ( NSString *key in parameterDict )
     {
-        [self.adView setExtraParameterForKey: key value: [parameterDict al_stringForKey: key]];
+        id value = parameterDict[key];
+        [self.adView setExtraParameterForKey: key value: (value != [NSNull null] ? value : nil)];
     }
 }
 

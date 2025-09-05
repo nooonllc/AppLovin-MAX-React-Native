@@ -1,10 +1,8 @@
-import { NativeModules } from 'react-native';
 import { addEventListener, removeEventListener } from './EventEmitter';
-import type { AdDisplayFailedInfo, AdInfo, AdLoadFailedInfo, AdRevenueInfo, AdRewardInfo } from './types/AdInfo';
+import type { AdDisplayFailedInfo, AdInfo, AdLoadFailedInfo, AdRewardInfo } from './types/AdInfo';
 import type { LocalExtraParameterValue } from './types/AdProps';
 import type { RewardedAdType } from './types/RewardedAd';
-
-const { AppLovinMAX } = NativeModules;
+import AppLovinMAX from './specs/NativeAppLovinMAXModule';
 
 const {
     ON_REWARDED_AD_LOADED_EVENT,
@@ -26,7 +24,7 @@ const loadAd = (adUnitId: string): void => {
 };
 
 const showAd = (adUnitId: string, placement?: string | null, customData?: string | null): void => {
-    AppLovinMAX.showRewardedAd(adUnitId, placement ?? null, customData ?? null);
+    AppLovinMAX.showRewardedAd(adUnitId, placement ?? undefined, customData ?? undefined);
 };
 
 const setExtraParameter = (adUnitId: string, key: string, value: string | null): void => {
@@ -85,7 +83,7 @@ const removeAdHiddenEventListener = (): void => {
     removeEventListener(ON_REWARDED_AD_HIDDEN_EVENT);
 };
 
-const addAdRevenuePaidListener = (listener: (adInfo: AdRevenueInfo) => void): void => {
+const addAdRevenuePaidListener = (listener: (adInfo: AdInfo) => void): void => {
     addEventListener(ON_REWARDED_AD_REVENUE_PAID, listener);
 };
 

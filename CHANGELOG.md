@@ -1,5 +1,27 @@
 ## Versions
 
+## 9.3.0
+* Depend on Android SDK 13.4.0 and iOS SDK 13.4.0.
+* Fix native ads being destroyed when switching tabs on iOS.
+* Add API for destroying native ads.
+## 9.2.1
+* Depend on Android SDK 13.3.1 and iOS SDK 13.3.1.
+## 9.2.0
+* Depend on Android SDK 13.3.0 and iOS SDK 13.3.0.
+* Add optional `isAdaptive` flag to `BannerAd.createAd()` and `preloadNativeUIComponentAdView()` to enable adaptive banners (default: true).
+## 9.1.0
+* Depend on Android SDK 13.2.0 and iOS SDK 13.2.0.
+* Fix LINE MREC (`<AdView/>`) not shown on Android.
+* Fix a type error from applying text-specific props to `StarRatingView`.
+## 9.0.0
+* Add support for Fabric Native Components in `AdView`s and `NativeAdView`s.
+* Add support for Turbo Native Modules.
+## 8.2.0
+* Depend on Android SDK 13.1.0 and iOS SDK 13.1.0.
+* Update `AdInfo` to include `adFormat`, `networkPlacement`, `revenuePrecision`, and `latencyMills`, deprecating `AdRevenueInfo`.
+* Fix banners and MRECs (`<AdView/>`) not being destroyed when unmounted with the new architecture enabled on iOS.
+* Fix native ads not being destroyed when unmounted on iOS.
+* Fix `adViewId` not correctly set for banners and MRECs (`<AdView/>`) on Android.
 ## 8.1.1
 * Make AppLovinMAXAdView public to support Amazon Integration. (https://github.com/AppLovin/AppLovin-MAX-React-Native/issues/407)
 * Enable compatibility with the Interop Layer.

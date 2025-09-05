@@ -1,150 +1,181 @@
+/**
+ * Provides pre-styled React Native components for each native ad asset view:
+ *
+ * - TitleView
+ * - AdvertiserView
+ * - BodyView
+ * - CallToActionView
+ * - IconView
+ * - OptionsView
+ * - MediaView
+ * - StarRatingView
+ *
+ * Each component pulls ad content and view refs from NativeAdView context,
+ * and must be rendered inside a {@link NativeAdView}.
+ */
+
 import * as React from 'react';
-import { useContext, useRef, useEffect, useCallback, useMemo } from 'react';
-import { findNodeHandle, Text, Image, View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
-import type { ViewProps, ImageProps, TextStyle, StyleProp, TextProps } from 'react-native';
+import { useContext, useMemo } from 'react';
+import { Text, Image, View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import type { ViewProps, ImageProps, TextProps } from 'react-native';
 import { NativeAdViewContext } from './NativeAdViewProvider';
-import type { NativeAd } from '../types/NativeAd';
 
-// Custom hook to handle setting native ad view properties and return nativeAd
-const useNativeAdViewProps = (nativeAdProp: keyof NativeAd, ref: React.RefObject<any>, nativePropKey: string) => {
-    const { nativeAd, nativeAdView } = useContext(NativeAdViewContext);
-
-    const setNativeProps = useCallback(() => {
-        if (!nativeAd[nativeAdProp] || !ref.current) return;
-        nativeAdView?.setNativeProps({
-            [nativePropKey]: findNodeHandle(ref.current),
-        });
-    }, [nativeAd, nativeAdProp, nativeAdView, ref, nativePropKey]);
-
-    useEffect(() => {
-        setNativeProps();
-    }, [setNativeProps]);
-
-    return nativeAd;
-};
-
+/**
+ * Renders the native ad’s title.
+ */
 export const TitleView = (props: TextProps) => {
-    const titleRef = useRef<Text | null>(null);
-    const nativeAd = useNativeAdViewProps('title', titleRef, 'titleView');
-
+    const { titleRef, nativeAd } = useContext(NativeAdViewContext);
     return (
         <Text {...props} ref={titleRef}>
-            {nativeAd.title || null}
+            {nativeAd.title ?? ''}
         </Text>
     );
 };
 
+/**
+ * Renders the advertiser name.
+ */
 export const AdvertiserView = (props: TextProps) => {
-    const advertiserRef = useRef<Text | null>(null);
-    const nativeAd = useNativeAdViewProps('advertiser', advertiserRef, 'advertiserView');
-
+    const { advertiserRef, nativeAd } = useContext(NativeAdViewContext);
     return (
         <Text {...props} ref={advertiserRef}>
-            {nativeAd.advertiser || null}
+            {nativeAd.advertiser ?? ''}
         </Text>
     );
 };
 
+/**
+ * Renders the ad’s body text (description).
+ */
 export const BodyView = (props: TextProps) => {
-    const bodyRef = useRef<Text | null>(null);
-    const nativeAd = useNativeAdViewProps('body', bodyRef, 'bodyView');
-
+    const { bodyRef, nativeAd } = useContext(NativeAdViewContext);
     return (
         <Text {...props} ref={bodyRef}>
-            {nativeAd.body || null}
+            {nativeAd.body ?? ''}
         </Text>
     );
 };
 
+/**
+ * Renders the call-to-action label.
+ * On iOS, wraps the text with a TouchableOpacity for better click behavior.
+ */
 export const CallToActionView = (props: TextProps) => {
-    const callToActionRef = useRef<Text | null>(null);
-    const nativeAd = useNativeAdViewProps('callToAction', callToActionRef, 'callToActionView');
+    const { callToActionRef, nativeAd } = useContext(NativeAdViewContext);
 
-    // TouchableOpacity disables clicking on certain Android devices.
     if (Platform.OS === 'android') {
         return (
             <Text {...props} ref={callToActionRef}>
-                {nativeAd.callToAction || null}
+                {nativeAd.callToAction ?? ''}
             </Text>
         );
-    } else {
-        return (
-            <TouchableOpacity>
-                <Text {...props} ref={callToActionRef}>
-                    {nativeAd.callToAction || null}
-                </Text>
-            </TouchableOpacity>
-        );
     }
-};
 
-export const IconView = (props: Omit<ImageProps, 'source'>) => {
-    const imageRef = useRef<Image | null>(null);
-    const nativeAd = useNativeAdViewProps('image', imageRef, 'iconView');
-
-    return nativeAd.url ? (
-        <Image {...props} ref={imageRef} source={{ uri: nativeAd.url }} />
-    ) : nativeAd.image ? (
-        <Image {...props} ref={imageRef} source={0} />
-    ) : (
-        <View {...props} />
+    return (
+        <TouchableOpacity>
+            <Text {...props} ref={callToActionRef}>
+                {nativeAd.callToAction ?? ''}
+            </Text>
+        </TouchableOpacity>
     );
 };
 
-export const OptionsView = (props: ViewProps) => {
-    const viewRef = useRef<View | null>(null);
-    useNativeAdViewProps('isOptionsViewAvailable', viewRef, 'optionsView');
+/**
+ * Renders the icon image for the native ad.
+ * Falls back to a blank placeholder if not available.
+ */
+export const IconView = (props: Omit<ImageProps, 'source'>) => {
+    const { imageRef, nativeAd } = useContext(NativeAdViewContext);
+    const defaultIcon = require('./img/blank_icon.png');
 
-    return <View {...props} ref={viewRef} />;
-};
-
-export const MediaView = (props: ViewProps) => {
-    const viewRef = useRef<View | null>(null);
-    useNativeAdViewProps('isMediaViewAvailable', viewRef, 'mediaView');
-
-    return <View {...props} ref={viewRef} />;
-};
-
-export const StarRatingView = (props: ViewProps) => {
-    const { style, ...restProps } = props;
-
-    const maxStarCount = 5;
-    const starColor = StyleSheet.flatten((style as StyleProp<TextStyle>) || {}).color ?? '#ffe234';
-    const starSize = StyleSheet.flatten((style as StyleProp<TextStyle>) || {}).fontSize ?? 10;
-
-    const { nativeAd } = useContext(NativeAdViewContext);
-
-    // Memoize the star rendering process
-    const stars = useMemo(() => {
-        if (!nativeAd.starRating) {
-            return Array.from({ length: maxStarCount }).map((_, index) => (
-                <Text key={index} style={{ fontSize: starSize }}>
-                    {' '}
-                </Text>
-            ));
+    const imageSource = useMemo(() => {
+        if (nativeAd?.url) {
+            return { uri: nativeAd.url };
         }
+        if (nativeAd?.imageSource) {
+            return { uri: `data:image/jpeg;base64,${nativeAd.imageSource}` };
+        }
+        return defaultIcon;
+    }, [nativeAd.url, nativeAd.imageSource, defaultIcon]);
+
+    return <Image {...props} ref={imageRef} source={imageSource} />;
+};
+
+/**
+ * Renders the native ad’s options view.
+ */
+export const OptionsView = (props: ViewProps) => {
+    const { optionViewRef } = useContext(NativeAdViewContext);
+    return <View {...props} ref={optionViewRef} />;
+};
+
+/**
+ * Renders the native ad’s media content.
+ */
+export const MediaView = (props: ViewProps) => {
+    const { mediaViewRef } = useContext(NativeAdViewContext);
+    return <View {...props} ref={mediaViewRef} />;
+};
+
+/**
+ * Props for the {@link StarRatingView} component, which displays a star rating
+ * using Unicode stars (★ and ☆) styled with color, shadow, and size.
+ */
+type StarRatingViewProps = ViewProps & {
+    /**
+     * The color used for filled (active) stars.
+     * Defaults to gold (#ffe234).
+     */
+    color?: string;
+
+    /**
+     * The color used for empty (inactive) stars.
+     * Defaults to light gray (#dedede).
+     */
+    shadowColor?: string;
+
+    /**
+     * The size of each star, which also determines their visual size.
+     * Defaults to 10.
+     */
+    size?: number;
+};
+
+/**
+ * Renders the star rating of the ad, using Unicode stars (★ and ☆).
+ * Filled stars are rendered over hollow stars using a clipped view.
+ */
+export const StarRatingView = ({ color = '#ffe234', shadowColor = '#dedede', size = 10, style }: StarRatingViewProps) => {
+    const { nativeAd } = useContext(NativeAdViewContext);
+    const maxStarCount = 5;
+
+    const containerStyle = useMemo(() => StyleSheet.flatten([style, styles.starRatingContainer]), [style]);
+
+    const stars = useMemo(() => {
+        const starRating = Math.max(0, Math.min(maxStarCount, nativeAd.starRating ?? 0));
 
         return Array.from({ length: maxStarCount }).map((_, index) => {
-            const starRating = nativeAd.starRating!;
-            const width = (starRating - index) * starSize;
+            const isFull = starRating > index;
+            const width = Math.min(size, Math.max(0, (starRating - index) * size));
+
             return (
                 <View key={index}>
-                    <Text style={{ fontSize: starSize, color: starColor }}>{String.fromCodePoint(0x2606)}</Text>
-                    {starRating > index && (
-                        <View style={[{ width: width }, styles.starRating]}>
-                            <Text style={{ fontSize: starSize, color: starColor }}>{String.fromCodePoint(0x2605)}</Text>
+                    <Text style={{ fontSize: size, color: isFull ? color : shadowColor }}>{String.fromCodePoint(0x2606)}</Text>
+                    {isFull && (
+                        <View style={[{ width }, styles.starRating]}>
+                            <Text style={{ fontSize: size, color }}>{String.fromCodePoint(0x2605)}</Text>
                         </View>
                     )}
                 </View>
             );
         });
-    }, [nativeAd.starRating, starColor, starSize]);
+    }, [nativeAd.starRating, color, shadowColor, size]);
 
-    return (
-        <View {...restProps} style={[style, styles.starRatingContainer]}>
-            {stars}
-        </View>
-    );
+    if (!nativeAd.starRating) {
+        return <View style={containerStyle} />;
+    }
+
+    return <View style={containerStyle}>{stars}</View>;
 };
 
 const styles = StyleSheet.create({

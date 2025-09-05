@@ -1,11 +1,9 @@
-import { NativeModules } from 'react-native';
 import { addEventListener, removeEventListener } from './EventEmitter';
-import type { AdInfo, AdLoadFailedInfo, AdRevenueInfo } from './types/AdInfo';
+import type { AdInfo, AdLoadFailedInfo } from './types/AdInfo';
 import type { LocalExtraParameterValue } from './types/AdProps';
 import type { BannerAdType } from './types/BannerAd';
 import type { AdViewPosition } from './AdView';
-
-const { AppLovinMAX } = NativeModules;
+import AppLovinMAX from './specs/NativeAppLovinMAXModule';
 
 const {
     ON_BANNER_AD_LOADED_EVENT,
@@ -16,9 +14,8 @@ const {
     ON_BANNER_AD_REVENUE_PAID,
 } = AppLovinMAX.getConstants();
 
-const createAd = (adUnitId: string, position: AdViewPosition, xOffset: number = 0, yOffset: number = 0): void => {
-    AppLovinMAX.createBannerWithOffsets(adUnitId, position, xOffset, yOffset);
-    AppLovinMAX.setBannerExtraParameter(adUnitId, 'adaptive_banner', 'true');
+const createAd = (adUnitId: string, position: AdViewPosition, xOffset: number = 0, yOffset: number = 0, isAdaptive: boolean = true): void => {
+    AppLovinMAX.createBannerWithOffsets(adUnitId, position, xOffset, yOffset, isAdaptive);
 };
 
 const destroyAd = (adUnitId: string): void => {
@@ -101,7 +98,7 @@ const removeAdExpandedEventListener = (): void => {
     removeEventListener(ON_BANNER_AD_EXPANDED_EVENT);
 };
 
-const addAdRevenuePaidListener = (listener: (adInfo: AdRevenueInfo) => void): void => {
+const addAdRevenuePaidListener = (listener: (adInfo: AdInfo) => void): void => {
     addEventListener(ON_BANNER_AD_REVENUE_PAID, listener);
 };
 

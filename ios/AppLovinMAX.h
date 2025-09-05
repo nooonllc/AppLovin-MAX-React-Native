@@ -7,19 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
 #define KEY_WINDOW [UIApplication sharedApplication].keyWindow
 #define DEVICE_SPECIFIC_ADVIEW_AD_FORMAT ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? MAAdFormat.leader : MAAdFormat.banner
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * The primary bridge between JS <-> native code for the AppLovin MAX React Native module.
  */
+#ifdef RCT_NEW_ARCH_ENABLED
+#import <RNAppLovinMAXSpec/RNAppLovinMAXSpec.h> 
+@interface AppLovinMAX : RCTEventEmitter<NativeAppLovinMAXModuleSpec, MAAdDelegate, MARewardedAdDelegate, MAAdViewAdDelegate, MAAdRevenueDelegate>
+#else
+#import <React/RCTBridgeModule.h>
 @interface AppLovinMAX : RCTEventEmitter<RCTBridgeModule, MAAdDelegate, MARewardedAdDelegate, MAAdViewAdDelegate, MAAdRevenueDelegate>
+#endif
+
+NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const ON_NATIVE_UI_COMPONENT_ADVIEW_AD_LOADED_EVENT;
 extern NSString *const ON_NATIVE_UI_COMPONENT_ADVIEW_AD_LOAD_FAILED_EVENT;
@@ -58,11 +63,6 @@ extern NSString *const ON_NATIVE_UI_COMPONENT_ADVIEW_AD_LOAD_FAILED_EVENT;
  * Returns a dictionay value of adDisplayFailedInfo for the specified ad and error.
  */
 - (NSDictionary<NSString *, id> *)adDisplayFailedInfoForAd:(MAAd *)ad withError:(MAError *)error;
-
-/**
- * Returns a dictionay value of adRevenuInfo for the specified ad.
- */
-- (NSDictionary<NSString *, id> *)adRevenueInfoForAd:(MAAd *)ad;
 
 @end
 
