@@ -54,7 +54,7 @@ android {
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
     multiDexEnabled true
 
-    buildConfigField("String", "VERSION_NAME", "\"9.3.0\"")
+    buildConfigField("String", "VERSION_NAME", "\"9.3.1\"")
     buildConfigField("boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString())
   }
 

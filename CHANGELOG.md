@@ -1,5 +1,9 @@
 ## Versions
 
+## x.x.x
+* Fix banner ads and MRECs being destroyed when switching tabs on iOS.
+## 9.3.1
+* Fix Android not compiling with new arch enabled.
 ## 9.3.0
 * Depend on Android SDK 13.4.0 and iOS SDK 13.4.0.
 * Fix native ads being destroyed when switching tabs on iOS.
