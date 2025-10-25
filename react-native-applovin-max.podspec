@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/AppLovinMAX*.{h,mm}"
 
-  s.dependency "AppLovinSDK", "13.4.0"
+  s.dependency "AppLovinSDK", "13.5.0"
 
   s.dependency 'AppLovinMediationBigoAdsAdapter'
   s.dependency 'AppLovinMediationChartboostAdapter'
